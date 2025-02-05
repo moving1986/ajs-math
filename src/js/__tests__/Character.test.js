@@ -1,51 +1,79 @@
-import Character from "../Character";
-import Magician from "../Magician";
-import Daemon from "../Daemon";
+import Character from '../Character';
+import Magician from '../Magician';
+import Daemon from '../Daemon';
 
-describe('Character', () => {
-    let magician, daemon;
+describe('Character class', () => {
+    let character;
 
     beforeEach(() => {
-        magician = new Magician(100);
-        daemon = new Daemon(100);
+        character = new Character('Hero');
     });
 
-    test('Magician attack at distance 1', () => {
-        expect(magician.calculateAttack(1)).toBe(100);
+    test('should create a character with given name', () => {
+        expect(character.name).toBe('Hero');
+        expect(character.attackPower).toBe(100);
+        expect(character.distance).toBe(1);
+        expect(character.stoned).toBe(false);
     });
 
-    test('Magician attack at distance 2', () => {
-        expect(magician.calculateAttack(2)).toBe(90);
+    test('should calculate attack correctly without stoned', () => {
+        character.distance = 1;
+        expect(character.attack).toBe(100);
+
+        character.distance = 2;
+        expect(character.attack).toBe(90); 
+
+        character.distance = 3;
+        expect(character.attack).toBe(80); 
+
+        character.distance = 4;
+        expect(character.attack).toBe(70);
+
+        character.distance = 5;
+        expect(character.attack).toBe(60); 
+
+        character.distance = 6;
+        expect(character.attack).toBe(50); 
     });
 
-    test('Magician attack at distance 3', () => {
-        expect(magician.calculateAttack(3)).toBe(80);
+    test('should set and get stoned', () => {
+        character.stoned = true;
+        expect(character.stoned).toBe(true);
+        character.stoned = false;
+        expect(character.stoned).toBe(false);
     });
 
-    test('Magician attack at distance 4', () => {
-        expect(magician.calculateAttack(4)).toBe(70);
+    test('should set and get distance', () => {
+        character.distance = 3;
+        expect(character.distance).toBe(3);
     });
 
-    test('Magician attack at distance 5', () => {
-        expect(magician.calculateAttack(5)).toBe(60);
+    test('should set attack power', () => {
+        character.attack = 150;
+        expect(character.attackPower).toBe(150);
+    });
+});
+
+describe('Magician class', () => {
+    let magician;
+
+    beforeEach(() => {
+        magician = new Magician('Gandalf');
     });
 
-    test('Magician attack at distance 2 with stoned effect', () => {
-        magician.setStoned(true);
-        expect(magician.calculateAttack(2)).toBe(85);
+    test('should create a magician with given name', () => {
+        expect(magician.name).toBe('Gandalf');
+    });
+});
+
+describe('Daemon class', () => {
+    let daemon;
+
+    beforeEach(() => {
+        daemon = new Daemon('Balrog');
     });
 
-    test('Daemon attack at distance 2 with stoned effect', () => {
-        daemon.setStoned(true);
-        expect(daemon.calculateAttack(2)).toBe(85);
-    });
-
-    test('Attack should not be negative', () => {
-        magician.setStoned(true);
-        expect(magician.calculateAttack(10)).toBe(33.390359525563184);
-    });
-
-    test('Distance must be at least 1', () => {
-        expect(() => magician.calculateAttack(0)).toThrow("Distance must be at least 1");
+    test('should create a daemon with given name', () => {
+        expect(daemon.name).toBe('Balrog');
     });
 });

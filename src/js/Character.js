@@ -1,43 +1,55 @@
-export default class Character {
-    
-    constructor(baseAttack) {
-        this.baseAttack = baseAttack;
+export default class пше {
+    constructor(name) {
+        this.name = name;
         this.stoned = false;
-    }
+        this.attackPower = 100; 
+        this.distance = 1; 
+      }
+    
+ 
+      get attack() {
+        let attack = this.attackPower * (1 - (this.distance - 1) * 0.1);
+        if (this.stoned) {
+          attack -= Math.log2(this.distance) * 5;
+        }
+        return Math.max(attack, 0); 
+      }
+    
 
-    setStoned(value) {
-        this.stoned = value;
-    }
+      set attack(value) {
+        this.attackPower = value;
+      }
+    
 
-    getStoned() {
-        return this.stoned;
+      get stoned() {
+        return this._stoned;
+      }
+    
+
+      set stoned(value) {
+        this._stoned = value;
+      }
+    
+
+      set distance(value) {
+        this._distance = value;
+      }
+    
+     
+      get distance() {
+        return this._distance;
+      }
     }
     
-    calculateAttack(distance) {
-        if (distance < 1) {
-            throw new Error("Distance must be at least 1");
-        }
-
-        let attack = this.baseAttack;
-        
-        if (distance === 1) {
-            attack *= 1.0;
-        } else if (distance === 2) {
-            attack *= 0.9;
-        } else if (distance === 3) {
-            attack *= 0.8;
-        } else if (distance === 4) {
-            attack *= 0.7;
-        } else if (distance === 5) {
-            attack *= 0.6;
-        } else {
-            attack *= 0.5; 
-        }
-
-        if (this.stoned) {
-            attack -= Math.log2(distance) * 5;
-        }
-
-        return Math.max(attack, 0); 
+    class Magician extends Character {
+      constructor(name) {
+        super(name);
+      }
     }
+    
+    class Daemon extends Character {
+      constructor(name) {
+        super(name);
+      }
 }
+
